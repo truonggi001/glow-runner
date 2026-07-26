@@ -1,0 +1,21 @@
+# Sprint 1 — Glow Runner
+
+sprint: 1
+date: 2026-07-26
+stories:
+  - id: story-collectible-spawn
+    status: in_progress
+  - id: story-near-miss-detection
+    status: todo
+  - id: story-glow-visual
+    status: todo
+  - id: story-obstacle-despawn
+    status: todo
+  - id: story-environment-dark-theme
+    status: todo
+  - id: story-parallax-background
+    status: todo
+  - id: story-sfx-jump-dash-death
+    status: todo
+  - id: story-particle-glow-trail
+    status: todo

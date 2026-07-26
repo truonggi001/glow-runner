@@ -26,7 +26,8 @@ public class PlayerController : MonoBehaviour
     private ParticleSystem dashParticles;
     private Renderer playerRenderer;
     private Color baseColor;
-    private Color dashColor = new Color(1f, 0.3f, 0f, 1f); // orange when dashing
+    private Color dashColor = new Color(1f, 0.3f, 0f, 1f);
+    private AudioSource sfxSource;
 
     public System.Action OnDeath;
     public System.Action OnDash;
@@ -48,6 +49,10 @@ public class PlayerController : MonoBehaviour
         if (playerRenderer != null) baseColor = playerRenderer.material.color;
         var psGo = transform.Find("DashParticles");
         if (psGo != null) dashParticles = psGo.GetComponent<ParticleSystem>();
+
+        // SFX AudioSource
+        sfxSource = gameObject.AddComponent<AudioSource>();
+        sfxSource.volume = 0.5f;
     }
 
     void Update()
@@ -66,6 +71,9 @@ public class PlayerController : MonoBehaviour
             speedMultiplier = Mathf.Min(speedMultiplier + data.speedRampPercent / 100f, data.speedCapMultiplier);
         }
         currentSpeed = data.baseSpeed * speedMultiplier;
+
+        // Update glow visual
+        UpdateGlowVisual();
 
         // Jump
         coyoteTimer -= Time.deltaTime;
@@ -116,6 +124,7 @@ public class PlayerController : MonoBehaviour
     {
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, data.jumpForce * multiplier, rb.linearVelocity.z);
         isGrounded = false;
+        PlaySFX("jump");
     }
 
     System.Collections.IEnumerator DashRoutine()
@@ -133,6 +142,7 @@ public class PlayerController : MonoBehaviour
             dashParticles.gameObject.SetActive(true);
             dashParticles.Play();
         }
+        PlaySFX("dash");
 
         // Pass through obstacles: make collider trigger during dash
         var col = GetComponent<Collider>();
@@ -191,7 +201,49 @@ public class PlayerController : MonoBehaviour
         // Hit obstacle
         if (collision.gameObject.CompareTag("Obstacle") && !isInvincible)
         {
+            PlaySFX("death");
             OnDeath?.Invoke();
+        }
+    }
+
+    void PlaySFX(string name)
+    {
+        if (sfxSource == null) return;
+        var clip = Resources.Load<UnityEngine.AudioClip>($"Audio/{name}");
+        if (clip == null)
+        {
+            // Try loading from Assets/Audio via path
+            var clips = FindObjectsByType<UnityEngine.AudioClip>(FindObjectsSortMode.None);
+            foreach (var c in clips)
+            {
+                if (c.name == name) { sfxSource.PlayOneShot(c); return; }
+            }
+        }
+        else
+        {
+            sfxSource.PlayOneShot(clip);
+        }
+    }
+
+    void UpdateGlowVisual()
+    {
+        float glow = GameManager.Instance != null ? GameManager.Instance.GlowIntensity : 0f;
+
+        // Emissive material intensity
+        if (playerRenderer != null && !isDashing)
+        {
+            Color baseEmission = new Color(0.1f, 0.8f, 0.2f);
+            Color glowEmission = baseEmission * (1f + glow * 2f);
+            playerRenderer.material.SetColor("_EmissionColor", glowEmission);
+            // Color shift: green → white-cyan at high glow
+            playerRenderer.material.color = Color.Lerp(baseColor, new Color(0.7f, 1f, 0.9f), glow);
+        }
+
+        // Trail particle rate
+        if (trail != null)
+        {
+            trail.time = 0.3f + glow * 0.7f;
+            trail.startColor = Color.Lerp(new Color(0.2f, 1f, 0.4f, 1f), new Color(0.7f, 1f, 1f, 1f), glow);
         }
     }
 }

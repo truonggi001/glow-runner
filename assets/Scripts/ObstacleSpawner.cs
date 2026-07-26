@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 /// <summary>
 /// Obstacle system: spawn hazard patterns. GDD: obstacles-hazard-spawning-patterns.md
@@ -8,6 +9,8 @@ public class ObstacleSpawner : MonoBehaviour
     private GameData.ObstacleData data;
     private float nextSpawnZ;
     private float trackWidth = 4f;
+    private List<GameObject> activeObstacles = new List<GameObject>();
+    private Transform player;
 
     void Start()
     {
@@ -22,15 +25,34 @@ public class ObstacleSpawner : MonoBehaviour
         if (GameManager.Instance == null || GameManager.Instance.CurrentState != GameManager.State.Playing)
             return;
 
-        var player = FindFirstObjectByType<PlayerController>();
-        if (player == null) return;
+        if (player == null)
+        {
+            var pc = FindFirstObjectByType<PlayerController>();
+            if (pc != null) player = pc.transform;
+            else return;
+        }
 
         // Spawn ahead of player
-        while (nextSpawnZ < player.transform.position.z + 80f)
+        while (nextSpawnZ < player.position.z + 80f)
         {
             SpawnPattern(nextSpawnZ);
-            float spacing = data.patternSpacingBase / player.speedMultiplier;
+            float spacing = data.patternSpacingBase / player.GetComponent<PlayerController>().speedMultiplier;
             nextSpawnZ += spacing;
+        }
+
+        // Despawn obstacles behind player (memory management)
+        for (int i = activeObstacles.Count - 1; i >= 0; i--)
+        {
+            if (activeObstacles[i] == null)
+            {
+                activeObstacles.RemoveAt(i);
+                continue;
+            }
+            if (player.position.z - activeObstacles[i].transform.position.z > 60f)
+            {
+                Destroy(activeObstacles[i]);
+                activeObstacles.RemoveAt(i);
+            }
         }
     }
 
@@ -44,16 +66,24 @@ public class ObstacleSpawner : MonoBehaviour
             case 2: SpawnLowBar(z); break;
             case 3: SpawnSpike(z); break;
         }
+
+        // Spawn shard cluster between patterns
+        var collectibleSpawner = FindFirstObjectByType<CollectibleSpawner>();
+        if (collectibleSpawner != null)
+        {
+            float clusterZ = z + 5f; // midway to next pattern
+            collectibleSpawner.SpawnCluster(clusterZ);
+        }
     }
 
     void SpawnWall(float z)
     {
-        // Wall on ground — jump over
         var go = GameObject.CreatePrimitive(PrimitiveType.Cube);
         go.tag = "Obstacle";
         go.transform.position = new Vector3(0, data.obstacleHeightWall / 2, z);
         go.transform.localScale = new Vector3(trackWidth, data.obstacleHeightWall, 0.5f);
         go.GetComponent<Renderer>().material.color = Color.red;
+        activeObstacles.Add(go);
     }
 
     void SpawnGap(float z)
@@ -74,21 +104,21 @@ public class ObstacleSpawner : MonoBehaviour
 
     void SpawnLowBar(float z)
     {
-        // Low bar — dash under
         var go = GameObject.CreatePrimitive(PrimitiveType.Cube);
         go.tag = "Obstacle";
         go.transform.position = new Vector3(0, 1.5f, z);
         go.transform.localScale = new Vector3(trackWidth, 0.5f, 0.5f);
         go.GetComponent<Renderer>().material.color = new Color(1f, 0.5f, 0f);
+        activeObstacles.Add(go);
     }
 
     void SpawnSpike(float z)
     {
-        // Spike — jump or dash
         var go = GameObject.CreatePrimitive(PrimitiveType.Cube);
         go.tag = "Obstacle";
         go.transform.position = new Vector3(0, 0.25f, z);
         go.transform.localScale = new Vector3(trackWidth, 0.5f, 0.5f);
         go.GetComponent<Renderer>().material.color = Color.magenta;
+        activeObstacles.Add(go);
     }
 }
