@@ -1,0 +1,93 @@
+{
+ "verdict": "PASS",
+ "trials": 1000,
+ "seed": 0,
+ "data_files": [
+  "collectibles",
+  "environment",
+  "game-states",
+  "movement",
+  "obstacles",
+  "scoring"
+ ],
+ "metrics": {
+  "score": {
+   "mean": 608.953,
+   "p05": 30.0,
+   "p50": 630.0,
+   "p95": 848.0
+  },
+  "survival_time": {
+   "mean": 17.7457,
+   "p05": 3.8,
+   "p50": 14.8,
+   "p95": 34.9
+  },
+  "distance": {
+   "mean": 162.6482,
+   "p05": 30.4,
+   "p50": 130.4,
+   "p95": 348.4
+  },
+  "shards": {
+   "mean": 8.935,
+   "p05": 0.0,
+   "p50": 10.0,
+   "p95": 10.0
+  },
+  "max_speed_mult": {
+   "mean": 1.2214,
+   "p05": 1.0,
+   "p50": 1.0,
+   "p95": 2.0
+  }
+ },
+ "checks": [
+  {
+   "metric": "score",
+   "stat": "mean",
+   "min": 200,
+   "max": 1000,
+   "value": 608.953,
+   "ok": true
+  },
+  {
+   "metric": "survival_time",
+   "stat": "mean",
+   "min": 10,
+   "max": 90,
+   "value": 17.7457,
+   "ok": true
+  },
+  {
+   "metric": "distance",
+   "stat": "mean",
+   "min": 100,
+   "max": 500,
+   "value": 162.6482,
+   "ok": true
+  },
+  {
+   "metric": "shards",
+   "stat": "mean",
+   "min": 2,
+   "max": 10,
+   "value": 8.935,
+   "ok": true
+  },
+  {
+   "metric": "score",
+   "stat": "p95",
+   "max": 1500,
+   "value": 848.0,
+   "ok": true
+  },
+  {
+   "metric": "survival_time",
+   "stat": "p05",
+   "min": 3,
+   "value": 3.8,
+   "ok": true
+  }
+ ]
+}

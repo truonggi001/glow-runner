@@ -1,33 +1,23 @@
 # Session State — Glow Runner
 
 ## Current Phase
-production (P4) — story lifecycle: implement remaining systems + polish
+earn (P6) — COMPLETE. All 4 gates passed (concept, design, slice, ship).
 
 ## Completed
 - P1 CONCEPT: gate PASS ✓
 - P2 DESIGN: 6 GDD + entities.yaml + 6 data JSON + cross-review, gate PASS ✓
-- P3 SLICE: 8 scripts, scene, 4 evidence, gate PASS ✓
+- P3 SLICE: 10 scripts, scene, 4 evidence, gate PASS ✓
+- P4 PRODUCTION: 8/8 stories done (collectibles, near-miss, glow visual, obstacle despawn, dark environment, parallax, SFX, particle trail)
+- P5 SHIP: release-checklist + 3 playtests + balance-sim PASS + telemetry + telemetry-report, gate PASS ✓
+- P6 EARN: monetization plan + marketing plan
 
-## P3 Evidence Summary
-- build.log: Unity batchmode, 0 compile errors
-- test-report.xml: 5/5 smoke tests pass
-- screenshot-01.png: game view with HUD, obstacles, green player
-- vision-verdict.json: ok=true, verdict=pass
-- human-played.md: verdict PROCEED
+## Game Status
+- 10 scripts: GameData, PlayerController, GameManager, ObstacleSpawner, CollectibleSpawner, UIController, CameraFollow, GroundScroll, SFXHolder, NearMissDetector, ParallaxBackground
+- 0 console errors
+- Balance sim: 1000 trials, 6/6 checks PASS (mean score 609, survival 17.7s, shards 8.9)
+- Dark theme + glow visual + SFX + BGM
+- Repo: github.com/truonggi001/glow-runner
 
-## Next Steps (P4)
-1. Fix: CollectibleSpawner not calling SpawnCluster (shards don't spawn)
-2. Implement: shard clusters between obstacle patterns
-3. Implement: near-miss detection
-4. Implement: glow visual (emissive material + trail intensity)
-5. Implement: environment dark theme + ambient light response
-6. Polish: obstacle despawn (memory), parallax background
-
-## Pilot Findings (for skill update)
-1. CLI needs absolute paths (no ~ expansion)
-2. GDD filename must match systems-index slug exactly (parenthetical included)
-3. UnityEngine.UI needs com.unity.ugui package — Unity 6 doesn't include by default
-4. Ground follow needs scale up + reposition, not just Floor() — Round() with half-length steps
-5. Dash through obstacles needs collider.isTrigger toggle, not just invincibility flag
-6. Visual feedback (trail + color flash + particles) essential for dash readability
-7. Procedural BGM via Python stdlib works well for placeholder audio
+## Pilot Complete
+Full pipeline: concept → design → slice → production → ship → earn
+All 4 gates PASS. Stage = earn.

@@ -6,7 +6,7 @@ stories:
   - id: story-collectible-spawn
     status: done
   - id: story-near-miss-detection
-    status: todo
+    status: done
   - id: story-glow-visual
     status: done
   - id: story-obstacle-despawn
@@ -14,7 +14,7 @@ stories:
   - id: story-environment-dark-theme
     status: done
   - id: story-parallax-background
-    status: todo
+    status: done
   - id: story-sfx-jump-dash-death
     status: done
   - id: story-particle-glow-trail

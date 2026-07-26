@@ -76,6 +76,8 @@ public class ObstacleSpawner : MonoBehaviour
         }
     }
 
+    public List<GameObject> GetActiveObstacles() { return activeObstacles; }
+
     void SpawnWall(float z)
     {
         var go = GameObject.CreatePrimitive(PrimitiveType.Cube);
