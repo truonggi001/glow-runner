@@ -208,20 +208,14 @@ public class PlayerController : MonoBehaviour
 
     void PlaySFX(string name)
     {
-        if (sfxSource == null) return;
-        var clip = Resources.Load<UnityEngine.AudioClip>($"Audio/{name}");
-        if (clip == null)
+        var holder = GetComponentInChildren<SFXHolder>();
+        if (holder == null) return;
+        switch (name)
         {
-            // Try loading from Assets/Audio via path
-            var clips = FindObjectsByType<UnityEngine.AudioClip>(FindObjectsSortMode.None);
-            foreach (var c in clips)
-            {
-                if (c.name == name) { sfxSource.PlayOneShot(c); return; }
-            }
-        }
-        else
-        {
-            sfxSource.PlayOneShot(clip);
+            case "jump": holder.Play(holder.jumpClip); break;
+            case "dash": holder.Play(holder.dashClip); break;
+            case "death": holder.Play(holder.deathClip); break;
+            case "shard": holder.Play(holder.shardClip); break;
         }
     }
 

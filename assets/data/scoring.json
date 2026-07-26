@@ -1,5 +1,5 @@
 {
   "scorePerMeter": 1,
-  "scorePerShard": 10,
+  "scorePerShard": 50,
   "highScoreKey": "glowrunner_highscore"
 }

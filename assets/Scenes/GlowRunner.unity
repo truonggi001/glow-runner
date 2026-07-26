@@ -333,6 +333,54 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &201428136
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 201428137}
+  - component: {fileID: 201428138}
+  m_Layer: 0
+  m_Name: SFXClips
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &201428137
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 201428136}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1215100509}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &201428138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 201428136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79e6611d284504f318e047e9033294c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SFXHolder
+  jumpClip: {fileID: 8300000, guid: e07249a3e61074066b6f76a8564db82f, type: 3}
+  dashClip: {fileID: 8300000, guid: d1ec7e4bfe41e424aa66c7254e0dc6e7, type: 3}
+  deathClip: {fileID: 8300000, guid: 63654a752a76e4946af02db6261e92da, type: 3}
+  shardClip: {fileID: 8300000, guid: 21dbb78afd72745be99cbf9a7c861e8f, type: 3}
 --- !u!1 &270525683
 GameObject:
   m_ObjectHideFlags: 0
@@ -5580,6 +5628,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 630015845}
+  - {fileID: 201428137}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!96 &1215100510

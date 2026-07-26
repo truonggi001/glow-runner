@@ -59,6 +59,9 @@ public class Shard : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             GameManager.Instance?.AddShard(1);
+            // Play shard SFX
+            var holder = other.GetComponentInChildren<SFXHolder>();
+            if (holder != null) holder.Play(holder.shardClip);
             Destroy(gameObject);
         }
     }

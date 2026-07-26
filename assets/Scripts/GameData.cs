@@ -47,7 +47,7 @@ public static class GameData
     public class CollectibleData
     {
         public int shardValue = 1;
-        public int glowCap = 50;
+        public int glowCap = 10;
         public float nearMissDistance = 0.5f;
         public int nearMissReward = 1;
         public float glowEmissiveMultiplier = 2f;
@@ -59,7 +59,7 @@ public static class GameData
     public class ScoringData
     {
         public int scorePerMeter = 1;
-        public int scorePerShard = 10;
+        public int scorePerShard = 50;
         public string highScoreKey = "glowrunner_highscore";
     }
 

@@ -1,6 +1,6 @@
 {
   "shardValue": 1,
-  "glowCap": 50,
+  "glowCap": 10,
   "nearMissDistance": 0.5,
   "nearMissReward": 1,
   "glowEmissiveMultiplier": 2.0,
