@@ -21,9 +21,9 @@ public static class GameData
         public float jumpForce = 9.8f;
         public float jumpMultiplierGround = 1f;
         public float jumpMultiplierDouble = 0.7f;
-        public float dashDistance = 2f;
-        public float dashDuration = 0.2f;
-        public float dashInvincibility = 0.3f;
+        public float dashDistance = 4f;
+        public float dashDuration = 0.4f;
+        public float dashInvincibility = 0.6f;
         public float dashCooldown = 1.5f;
         public float speedRampInterval = 30f;
         public float speedRampPercent = 10f;

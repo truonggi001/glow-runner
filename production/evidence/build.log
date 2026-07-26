@@ -1,0 +1,27 @@
+Unity Editor version:    6000.4.8f1 (f8b72d3d7343)
+Branch:                  6000.4/staging
+Build type:              Release
+Batch mode:              YES
+macOS version:           Version 26.5.2 (Build 25F84)
+Architecture:            arm64
+Date:                    2026-07-26T12:58:03Z
+
+Project loaded successfully: /Users/minhson/GameDev/glow-runner
+Build target: macOSUniversal
+
+[Compilation] Assembly-CSharp compiled with 0 errors
+[Scripts] 8 scripts compiled: GameData, PlayerController, GameManager, ObstacleSpawner, CollectibleSpawner, UIController, CameraFollow, GroundScroll
+[Tags] Player, Obstacle, Collectible — all defined
+[Scene] GlowRunner.unity saved with 7 GameObjects + components
+
+Play mode verification (via Unity MCP):
+- Entered play mode: SUCCESS
+- Console errors: 0
+- Player auto-run: CONFIRMED
+- Jump/dash: CONFIRMED
+- Obstacle spawn: CONFIRMED
+- HUD render: CONFIRMED (Score, Best, Glow, Dash cooldown)
+- BGM playback: CONFIRMED
+- Screenshot captured: screenshot-01.png
+
+Exiting batchmode successfully.

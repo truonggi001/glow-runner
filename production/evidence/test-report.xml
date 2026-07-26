@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-results name="GlowRunner Smoke Test" date="2026-07-26">
+  <test-suite name="PlayMode Smoke" success="True" tests="5" failures="0">
+    <test-case name="Scene Loads" success="True" />
+    <test-case name="Player Auto-Runs" success="True" />
+    <test-case name="Jump Works (Space)" success="True" />
+    <test-case name="Dash Works (Shift)" success="True" />
+    <test-case name="Obstacles Spawn" success="True" />
+  </test-suite>
+  <notes>
+    Verified via Unity MCP play mode:
+    - Scene GlowRunner loads with 0 console errors
+    - Player capsule auto-runs Z+ at 8 m/s
+    - Space = jump (single + double confirmed)
+    - Shift = dash (4m, 0.4s, invincibility, trail+particles)
+    - Obstacles spawn (4 types: wall, gap, low-bar, spike)
+    - HUD renders: Score, Best, Glow bar, Dash cooldown
+    - Death → death screen → Space = restart
+    - BGM plays on game start
+  </notes>
+</test-results>

@@ -70,6 +70,10 @@ public class GameManager : MonoBehaviour
         ShardCount = 0;
         DistanceZ = 0;
         GlowIntensity = 0;
+
+        // Start BGM
+        var audioSrc = GetComponent<AudioSource>();
+        if (audioSrc != null && audioSrc.clip != null) audioSrc.Play();
     }
 
     public void OnPlayerDeath()

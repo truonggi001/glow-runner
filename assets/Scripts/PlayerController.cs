@@ -22,6 +22,11 @@ public class PlayerController : MonoBehaviour
     private float coyoteTimer;
     private float speedRampTimer;
     private float startY;
+    private TrailRenderer trail;
+    private ParticleSystem dashParticles;
+    private Renderer playerRenderer;
+    private Color baseColor;
+    private Color dashColor = new Color(1f, 0.3f, 0f, 1f); // orange when dashing
 
     public System.Action OnDeath;
     public System.Action OnDash;
@@ -35,6 +40,14 @@ public class PlayerController : MonoBehaviour
         currentSpeed = data.baseSpeed;
         startY = transform.position.y;
         jumpCount = 0;
+
+        // Visual feedback refs
+        trail = GetComponent<TrailRenderer>();
+        if (trail != null) trail.enabled = false;
+        playerRenderer = GetComponent<Renderer>();
+        if (playerRenderer != null) baseColor = playerRenderer.material.color;
+        var psGo = transform.Find("DashParticles");
+        if (psGo != null) dashParticles = psGo.GetComponent<ParticleSystem>();
     }
 
     void Update()
@@ -112,6 +125,19 @@ public class PlayerController : MonoBehaviour
         dashCooldownTimer = data.dashCooldown;
         OnDash?.Invoke();
 
+        // Visual: enable trail, change color, burst particles
+        if (trail != null) trail.enabled = true;
+        if (playerRenderer != null) playerRenderer.material.color = dashColor;
+        if (dashParticles != null)
+        {
+            dashParticles.gameObject.SetActive(true);
+            dashParticles.Play();
+        }
+
+        // Pass through obstacles: make collider trigger during dash
+        var col = GetComponent<Collider>();
+        if (col != null) col.isTrigger = true;
+
         float timer = 0;
         float dashSpeed = data.dashDistance / data.dashDuration;
 
@@ -123,8 +149,19 @@ public class PlayerController : MonoBehaviour
         }
 
         isDashing = false;
+
+        // Keep invincibility color for remaining duration, then revert
         yield return new WaitForSeconds(data.dashInvincibility - data.dashDuration);
         isInvincible = false;
+
+        // Revert visual
+        if (trail != null) trail.enabled = false;
+        if (playerRenderer != null) playerRenderer.material.color = baseColor;
+        if (dashParticles != null) dashParticles.Stop();
+
+        // Restore solid collider
+        var col2 = GetComponent<Collider>();
+        if (col2 != null) col2.isTrigger = false;
     }
 
     void OnCollisionStay(Collision collision)

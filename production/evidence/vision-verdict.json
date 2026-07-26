@@ -1,0 +1,5 @@
+{
+  "ok": true,
+  "verdict": "pass",
+  "notes": "Game view shows: green player capsule on grey ground plane, obstacles (red/purple/orange blocks) spawned ahead, HUD visible (Score: 54, Best: 0, Dash: READY). Camera follows player from behind. 0 console errors. Core gameplay loop visible: auto-run + obstacles + scoring + dash indicator."
+}

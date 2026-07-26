@@ -12,6 +12,7 @@ public class UIController : MonoBehaviour
     private Text scoreText;
     private Text highScoreText;
     private Text glowBarText;
+    private Text dashStatusText;
     private Text menuHighScore;
     private Text deathScore;
     private Text deathHighScore;
@@ -40,6 +41,7 @@ public class UIController : MonoBehaviour
         scoreText = CreateText(hudPanel.transform, "Score: 0", 24, Color.white);
         highScoreText = CreateText(hudPanel.transform, "Best: 0", 18, Color.gray);
         glowBarText = CreateText(hudPanel.transform, "Glow: [----------]", 18, Color.cyan);
+        dashStatusText = CreateText(hudPanel.transform, "Dash: READY", 18, Color.green);
 
         // Menu panel
         menuPanel = CreatePanel(canvasGo.transform, "MenuPanel", new Color(0, 0, 0, 0.7f));
@@ -120,6 +122,34 @@ public class UIController : MonoBehaviour
                 string bar = "";
                 for (int i = 0; i < 10; i++) bar += i < glowBars ? "#" : "-";
                 glowBarText.text = $"Glow: [{bar}]";
+
+                // Dash cooldown indicator
+                var player = FindFirstObjectByType<PlayerController>();
+                if (player != null)
+                {
+                    // Read dashCooldownTimer via reflection (private field)
+                    var field = typeof(PlayerController).GetField("dashCooldownTimer",
+                        System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                    if (field != null)
+                    {
+                        float cdTimer = (float)field.GetValue(player);
+                        float maxCd = GameData.Movement != null ? GameData.Movement.dashCooldown : 1.5f;
+                        if (cdTimer <= 0)
+                        {
+                            dashStatusText.text = "Dash: READY";
+                            dashStatusText.color = Color.green;
+                        }
+                        else
+                        {
+                            float pct = 1f - (cdTimer / maxCd);
+                            int dashBars = Mathf.RoundToInt(pct * 10);
+                            string dashBar = "";
+                            for (int i = 0; i < 10; i++) dashBar += i < dashBars ? "#" : "-";
+                            dashStatusText.text = $"Dash: [{dashBar}]";
+                            dashStatusText.color = new Color(1f, 0.5f, 0f); // orange = charging
+                        }
+                    }
+                }
                 break;
             case GameManager.State.Dead:
                 hudPanel.SetActive(false);
