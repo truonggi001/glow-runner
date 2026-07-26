@@ -1,0 +1,15 @@
+{
+  "baseSpeed": 8.0,
+  "jumpForce": 9.8,
+  "jumpMultiplierGround": 1.0,
+  "jumpMultiplierDouble": 0.7,
+  "dashDistance": 2.0,
+  "dashDuration": 0.2,
+  "dashInvincibility": 0.3,
+  "dashCooldown": 1.5,
+  "speedRampInterval": 30,
+  "speedRampPercent": 10,
+  "speedCapMultiplier": 2.0,
+  "gravity": -9.81,
+  "coyoteTime": 0.1
+}

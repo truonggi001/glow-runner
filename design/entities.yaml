@@ -1,0 +1,43 @@
+# Glow Runner — Entities (facts locked)
+# Giá trị đã chốt xuyên GDD — lệch phải nêu xung đột trước khi viết
+
+# Movement
+baseSpeed: 8.0          # m/s, assets/data/movement.json
+jumpForce: 9.8          # m/s² × jumpMultiplier
+gravity: -9.81          # Unity default, scale 1
+dashDistance: 2.0      # m
+dashInvincibility: 0.3 # s
+dashCooldown: 1.5       # s
+speedRampInterval: 30   # s
+speedRampPercent: 10    # % per interval
+speedCapMultiplier: 2.0 # × base
+
+# Obstacles
+patternSpacingBase: 10  # m, divisor = speedMultiplier
+obstacleHeightWall: 1.5 # m
+obstacleHeightLowbar: 1.0 # m
+gapWidthMin: 2.0        # m
+gapWidthMax: 4.0        # m
+safeZoneCheckpoint: 3   # m
+
+# Collectibles
+shardValue: 1
+glowCap: 50
+nearMissDistance: 0.5   # m
+nearMissReward: 1
+
+# Scoring
+scorePerMeter: 1
+scorePerShard: 10
+
+# Game States
+transitionDeadToPlaying: 0.5 # s
+transitionMenuToPlaying: 0.3  # s
+
+# Environment
+segmentLength: 30      # m
+trackWidth: 4           # m
+ambientBase: 0.2
+ambientGlowMultiplier: 0.6
+parallaxSpeedFar: 0.1
+parallaxSpeedMid: 0.3

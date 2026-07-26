@@ -1,0 +1,9 @@
+{
+  "patternSpacingBase": 10,
+  "obstacleHeightWall": 1.5,
+  "obstacleHeightLowbar": 1.0,
+  "gapWidthMin": 2.0,
+  "gapWidthMax": 4.0,
+  "safeZoneCheckpoint": 3,
+  "spikeDamage": "instant_death"
+}

@@ -1,0 +1,9 @@
+{
+  "shardValue": 1,
+  "glowCap": 50,
+  "nearMissDistance": 0.5,
+  "nearMissReward": 1,
+  "glowEmissiveMultiplier": 2.0,
+  "trailParticleRateBase": 10,
+  "trailParticleRateMax": 50
+}

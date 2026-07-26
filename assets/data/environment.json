@@ -1,0 +1,11 @@
+{
+  "segmentLength": 30,
+  "trackWidth": 4,
+  "ambientBase": 0.2,
+  "ambientGlowMultiplier": 0.6,
+  "gridEmissiveBase": 0.3,
+  "gridEmissiveGlowMultiplier": 2.0,
+  "parallaxSpeedFar": 0.1,
+  "parallaxSpeedMid": 0.3,
+  "despawnDistance": 60
+}
