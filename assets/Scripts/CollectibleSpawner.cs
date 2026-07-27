@@ -41,14 +41,33 @@ public class CollectibleSpawner : MonoBehaviour
 
     void CreateShard(Vector3 pos)
     {
-        var go = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        GameObject go;
+        // Try loading shard model from Resources
+        var prefab = Resources.Load<GameObject>("Models/shard");
+        if (prefab != null)
+        {
+            go = Object.Instantiate(prefab);
+        }
+        else
+        {
+            go = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        }
         go.tag = "Collectible";
         go.transform.position = pos;
         go.transform.localScale = Vector3.one * 0.3f;
-        go.GetComponent<Renderer>().material.color = Color.cyan;
-        go.GetComponent<Collider>().isTrigger = true;
 
-        var shard = go.AddComponent<Shard>();
+        // Assign neon cyan material
+        var neonMat = Resources.Load<Material>("Materials/NeonCyan");
+        var rend = go.GetComponentInChildren<Renderer>();
+        if (rend != null)
+        {
+            if (neonMat != null) rend.material = neonMat;
+            else rend.material.color = Color.cyan;
+        }
+
+        var col = go.GetComponentInChildren<Collider>();
+        if (col != null) col.isTrigger = true;
+        go.AddComponent<Shard>();
     }
 }
 

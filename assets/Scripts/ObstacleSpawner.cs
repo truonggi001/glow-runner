@@ -80,7 +80,7 @@ public class ObstacleSpawner : MonoBehaviour
 
     void SpawnWall(float z)
     {
-        var go = CreateFromModel("Assets/Models/obstaclewall.obj", z);
+        var go = CreateFromModel("Assets/Models/obstaclewall.obj");
         if (go == null)
         {
             go = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -93,6 +93,11 @@ public class ObstacleSpawner : MonoBehaviour
             go.transform.localScale = new Vector3(trackWidth, data.obstacleHeightWall, 0.5f);
         }
         go.tag = "Obstacle";
+        // Ensure collider
+        if (go.GetComponentInChildren<Collider>() == null)
+        {
+            go.AddComponent<BoxCollider>();
+        }
         AssignNeonMaterial(go, "Assets/Materials/NeonRed.mat");
         activeObstacles.Add(go);
     }
@@ -137,17 +142,16 @@ public class ObstacleSpawner : MonoBehaviour
     {
         var matName = System.IO.Path.GetFileNameWithoutExtension(materialPath);
         var mat = Resources.Load<Material>($"Materials/{matName}");
-        if (mat != null)
-        {
-            go.GetComponent<Renderer>().material = mat;
-        }
+        if (mat == null) return;
+        var rend = go.GetComponentInChildren<Renderer>();
+        if (rend != null) rend.material = mat;
     }
 
-    GameObject CreateFromModel(string modelPath, float z)
+    GameObject CreateFromModel(string modelPath)
     {
-        var prefab = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(modelPath);
+        var matName = System.IO.Path.GetFileNameWithoutExtension(modelPath);
+        var prefab = Resources.Load<GameObject>($"Models/{matName}");
         if (prefab == null) return null;
-        var go = Object.Instantiate(prefab);
-        return go;
+        return Object.Instantiate(prefab);
     }
 }
