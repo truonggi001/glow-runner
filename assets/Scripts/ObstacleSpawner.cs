@@ -80,10 +80,19 @@ public class ObstacleSpawner : MonoBehaviour
 
     void SpawnWall(float z)
     {
-        var go = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        var go = CreateFromModel("Assets/Models/obstaclewall.obj", z);
+        if (go == null)
+        {
+            go = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            go.transform.position = new Vector3(0, data.obstacleHeightWall / 2, z);
+            go.transform.localScale = new Vector3(trackWidth, data.obstacleHeightWall, 0.5f);
+        }
+        else
+        {
+            go.transform.position = new Vector3(0, data.obstacleHeightWall / 2, z);
+            go.transform.localScale = new Vector3(trackWidth, data.obstacleHeightWall, 0.5f);
+        }
         go.tag = "Obstacle";
-        go.transform.position = new Vector3(0, data.obstacleHeightWall / 2, z);
-        go.transform.localScale = new Vector3(trackWidth, data.obstacleHeightWall, 0.5f);
         AssignNeonMaterial(go, "Assets/Materials/NeonRed.mat");
         activeObstacles.Add(go);
     }
@@ -126,13 +135,19 @@ public class ObstacleSpawner : MonoBehaviour
 
     void AssignNeonMaterial(GameObject go, string materialPath)
     {
-        // Load from Assets/Materials/ via Resources — materials must be in Resources/ folder
-        // Fallback: just set color
         var matName = System.IO.Path.GetFileNameWithoutExtension(materialPath);
         var mat = Resources.Load<Material>($"Materials/{matName}");
         if (mat != null)
         {
             go.GetComponent<Renderer>().material = mat;
         }
+    }
+
+    GameObject CreateFromModel(string modelPath, float z)
+    {
+        var prefab = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(modelPath);
+        if (prefab == null) return null;
+        var go = Object.Instantiate(prefab);
+        return go;
     }
 }
