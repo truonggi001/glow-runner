@@ -10,6 +10,7 @@ public class NearMissDetector : MonoBehaviour
     private float nearMissDistance = 0.5f;
     private Transform player;
     private ObstacleSpawner obstacleSpawner;
+    private List<float> countedObstacleZ = new List<float>();
 
     void Start()
     {
@@ -37,37 +38,42 @@ public class NearMissDetector : MonoBehaviour
         foreach (var obs in obstacleSpawner.GetActiveObstacles())
         {
             if (obs == null) continue;
-            float dz = player.position.z - obs.transform.position.z;
+            float obsZ = obs.transform.position.z;
+            // Check if already counted
+            bool alreadyCounted = false;
+            foreach (var cz in countedObstacleZ)
+            {
+                if (Mathf.Abs(cz - obsZ) < 0.1f) { alreadyCounted = true; break; }
+            }
+            if (alreadyCounted) continue;
+
+            float dz = player.position.z - obsZ;
             // Player just passed obstacle (0 < dz < 2)
             if (dz > 0 && dz < 2f)
             {
-                // Check if already counted (tag it)
-                if (obs.CompareTag("NearMissed")) continue;
-                obs.tag = "NearMissed";
+                countedObstacleZ.Add(obsZ);
 
-                float dy = Mathf.Abs(player.position.y - obs.transform.position.z);
-                // Calculate actual Y distance to obstacle
-                var obsHeight = obs.transform.localScale.y;
-                var obsCenterY = obs.transform.position.y;
-                float playerY = player.position.y;
-                float yDist = Mathf.Abs(playerY - obsCenterY) - obsHeight / 2f;
-
+                // Calculate distance to obstacle edge
+                float obsHeight = obs.transform.localScale.y;
+                float obsCenterY = obs.transform.position.y;
+                float yDist = Mathf.Abs(player.position.y - obsCenterY) - obsHeight / 2f;
                 float xDist = Mathf.Abs(player.position.x - obs.transform.position.x);
 
                 // Near-miss: close in X or Y but didn't hit
                 if (xDist < nearMissDistance || yDist < nearMissDistance)
                 {
-                    // Check player not invincible (dash near-miss counts once)
                     var pc = player.GetComponent<PlayerController>();
                     if (pc != null && !pc.isInvincible)
                     {
                         GameManager.Instance.AddShard(1);
-                        // Play shard SFX
                         var holder = player.GetComponentInChildren<SFXHolder>();
                         if (holder != null) holder.Play(holder.shardClip);
                     }
                 }
             }
         }
+
+        // Clean up counted Z positions that are far behind player
+        countedObstacleZ.RemoveAll(z => player.position.z - z > 60f);
     }
 }

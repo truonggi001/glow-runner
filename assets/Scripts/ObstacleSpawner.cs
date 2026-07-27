@@ -84,7 +84,7 @@ public class ObstacleSpawner : MonoBehaviour
         go.tag = "Obstacle";
         go.transform.position = new Vector3(0, data.obstacleHeightWall / 2, z);
         go.transform.localScale = new Vector3(trackWidth, data.obstacleHeightWall, 0.5f);
-        go.GetComponent<Renderer>().material.color = Color.red;
+        AssignNeonMaterial(go, "Assets/Materials/NeonRed.mat");
         activeObstacles.Add(go);
     }
 
@@ -110,7 +110,7 @@ public class ObstacleSpawner : MonoBehaviour
         go.tag = "Obstacle";
         go.transform.position = new Vector3(0, 1.5f, z);
         go.transform.localScale = new Vector3(trackWidth, 0.5f, 0.5f);
-        go.GetComponent<Renderer>().material.color = new Color(1f, 0.5f, 0f);
+        AssignNeonMaterial(go, "Assets/Materials/NeonOrange.mat");
         activeObstacles.Add(go);
     }
 
@@ -120,7 +120,19 @@ public class ObstacleSpawner : MonoBehaviour
         go.tag = "Obstacle";
         go.transform.position = new Vector3(0, 0.25f, z);
         go.transform.localScale = new Vector3(trackWidth, 0.5f, 0.5f);
-        go.GetComponent<Renderer>().material.color = Color.magenta;
+        AssignNeonMaterial(go, "Assets/Materials/NeonMagenta.mat");
         activeObstacles.Add(go);
+    }
+
+    void AssignNeonMaterial(GameObject go, string materialPath)
+    {
+        // Load from Assets/Materials/ via Resources — materials must be in Resources/ folder
+        // Fallback: just set color
+        var matName = System.IO.Path.GetFileNameWithoutExtension(materialPath);
+        var mat = Resources.Load<Material>($"Materials/{matName}");
+        if (mat != null)
+        {
+            go.GetComponent<Renderer>().material = mat;
+        }
     }
 }

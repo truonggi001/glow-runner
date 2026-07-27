@@ -34,12 +34,21 @@ public class GameManager : MonoBehaviour
         HighScore = PlayerPrefs.GetInt(scoringData.highScoreKey, 0);
     }
 
+    private float menuAutoStartTimer = 0;
+    private bool autoStartEnabled = false; // disabled for production
+
     void Update()
     {
         switch (CurrentState)
         {
             case State.Menu:
                 if (Input.GetKeyDown(KeyCode.Space)) StartGame();
+                // Auto-start for screenshot capture (remove in production)
+                if (autoStartEnabled)
+                {
+                    menuAutoStartTimer += Time.deltaTime;
+                    if (menuAutoStartTimer > 0.5f) StartGame();
+                }
                 break;
             case State.Playing:
                 UpdateScore();
